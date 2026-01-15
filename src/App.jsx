@@ -1,6 +1,6 @@
 import { Link, Navigate, Route, Routes, useLocation } from "react-router-dom";
 import { useEffect, useMemo, useState } from "react";
-import { supabase } from "./lib/supabaseClient";
+import { supabase, isMockMode } from "./lib/supabaseClient";
 import Landing from "./pages/Landing.jsx";
 import Admin from "./pages/Admin.jsx";
 
@@ -27,7 +27,6 @@ export default function App() {
         <div className="row">
           <Link to="/"><b>BTC Solo Win Monitor</b></Link>
           <div className="nav">
-            <Link to="/">Landing</Link>
             <Link to="/admin">Admin</Link>
           </div>
         </div>
@@ -50,7 +49,7 @@ export default function App() {
         <Route path="/" element={<Landing />} />
         <Route
           path="/admin"
-          element={authed ? <Admin accessToken={session.access_token} /> : <Navigate to="/" replace />}
+          element={(authed || isMockMode) ? <Admin accessToken={session?.access_token || "mock-token"} /> : <Navigate to="/" replace />}
         />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
