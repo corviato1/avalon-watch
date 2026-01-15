@@ -54,6 +54,8 @@ function createMockSupabase() {
   };
 }
 
+export const isMockMode = !(url && anonKey);
+
 export const supabase =
   url && anonKey
     ? createClient(url, anonKey, {
